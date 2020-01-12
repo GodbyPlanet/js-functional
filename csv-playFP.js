@@ -59,13 +59,20 @@ const getFirstTenRecords = compose(
   splitSalesRecordsByNewLine
 );
 
+const getMapppedObjects = partial(map, record => mapRecordToObject(record));
+const getVegetablesRecords = partial(
+  filter,
+  record => record.itemType === "Vegetables"
+);
+const getMostProfitableRecord = partial(reduce, (prev, curr) =>
+  prev.totalProfit > curr.totalProfit ? prev : curr
+);
+
 const getMostProfitableVegetablesRecordCompose = compose(
-  partial(reduce, (prev, curr) => {
-    return prev.totalProfit > curr.totalProfit ? prev : curr;
-  }),
+  getMostProfitableRecord,
   firstTenRecords,
-  partial(filter, record => record.itemType === "Vegetables"),
-  partial(map, record => mapRecordToObject(record)),
+  getVegetablesRecords,
+  getMapppedObjects,
   mapAndSplitBySemiColon,
   splitSalesRecordsByNewLine
 );
