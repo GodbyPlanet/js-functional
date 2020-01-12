@@ -81,15 +81,10 @@ const mapppedRecordsToObjects = map(
 );
 const firstTenRecords = partial(slice, 1, 11);
 
-// console.log(splitedRecordsBySemiColon);
-// console.log(mapppedRecordsToObjects);
-// console.log(firstTenRecords(mapppedRecordsToObjects));
-
 const getVegetablesRecordsFP = filter(
   record => record.itemType === "Vegetables",
   firstTenRecords(mapppedRecordsToObjects)
 );
-console.log(getVegetablesRecordsFP);
 
 const getMostProfitableVegetablesRecordFP = reduce(
   (prev, curr) => (prev.totalProfit > curr.totalProfit ? prev : curr),
