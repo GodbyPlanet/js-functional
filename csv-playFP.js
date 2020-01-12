@@ -10,6 +10,8 @@ const slice = (from, to, xs) => xs.slice(from, to);
 const map = (fn, xs) => xs.map(fn);
 const filter = (fn, xs) => xs.filter(fn);
 const reduce = (fn, xs) => xs.reduce(fn);
+const compose = (...fns) => (...args) =>
+  fns.reduceRight((res, fn) => [fn.call(null, ...res)], args)[0];
 
 const splitSalesRecordsByNewLine = partial(split, "\r\n");
 const splitedByNewLine = splitSalesRecordsByNewLine(getData());
@@ -50,4 +52,22 @@ const getMostProfitableVegetablesRecordFP = reduce(
   getVegetablesRecordsFP
 );
 
-console.log(getMostProfitableVegetablesRecordFP);
+const getFirstTenRecords = compose(
+  partial(map, record => mapRecordToObject(record)),
+  mapAndSplitBySemiColon,
+  firstTenRecords,
+  splitSalesRecordsByNewLine
+);
+
+const getMostProfitableVegetablesRecordCompose = compose(
+  partial(reduce, (prev, curr) => {
+    return prev.totalProfit > curr.totalProfit ? prev : curr;
+  }),
+  firstTenRecords,
+  partial(filter, record => record.itemType === "Vegetables"),
+  partial(map, record => mapRecordToObject(record)),
+  mapAndSplitBySemiColon,
+  splitSalesRecordsByNewLine
+);
+
+console.log(getMostProfitableVegetablesRecordCompose(getData()));
