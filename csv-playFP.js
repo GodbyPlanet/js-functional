@@ -52,12 +52,13 @@ const getMostProfitableVegetablesRecordFP = reduce(
   getVegetablesRecordsFP
 );
 
-const getFirstTenRecords = compose(
+const mappedToObjectRecords = compose(
   partial(map, record => mapRecordToObject(record)),
   mapAndSplitBySemiColon,
-  firstTenRecords,
   splitSalesRecordsByNewLine
 );
+
+const getFirstTenRecords = firstTenRecords(mappedToObjectRecords(getData()));
 
 const getMapppedObjects = partial(map, record => mapRecordToObject(record));
 const getVegetablesRecords = partial(
