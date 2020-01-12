@@ -35,15 +35,7 @@ const getMostProfitableVegetablesRecord = getVegetablesRecords.reduce(
   (pre, curr) => (pre.totalProfit > curr.totalProfit ? pre : curr)
 );
 
-// console.log(salesRecords);
-// console.log(getVegetablesRecords);
-// console.log(getMostProfitableVegetablesRecord);
-
 // FUNCTIONAL PART
-
-// const split = reg => data => data.split(reg);
-// const splitData = split("\r\n");
-// console.log(splitData(getData()));
 
 const partial = (fn, ...args) => (...restArgs) => fn(...args, ...restArgs);
 const split = (reg, data) => data.split(reg);
